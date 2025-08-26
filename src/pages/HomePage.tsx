@@ -30,9 +30,9 @@ const HomePage = () => {
             Explore the Island
           </h2>
           
-          <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-3 items-stretch">
             {/* Food, Vegetation & Fauna */}
-            <div className="bg-card rounded-2xl p-8 shadow-soft hover:shadow-mediterranean transition-all duration-300 transform hover:-translate-y-2">
+            <div className="bg-card rounded-2xl p-8 shadow-soft hover:shadow-mediterranean transition-all duration-300 transform hover:-translate-y-2 min-h-[400px] flex flex-col">
               <div className="flex flex-col items-center text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-sardinian-green to-accent rounded-full flex items-center justify-center mb-6">
                   <Leaf className="w-8 h-8 text-white" />
@@ -47,7 +47,7 @@ const HomePage = () => {
                   variant="hero" 
                   size="lg"
                   onClick={() => navigate("/food-nature")}
-                  className="w-full"
+                  className="w-full mt-auto"
                 >
                   Explore Nature
                 </Button>
@@ -55,7 +55,7 @@ const HomePage = () => {
             </div>
 
             {/* Places to Visit & History */}
-            <div className="bg-card rounded-2xl p-8 shadow-soft hover:shadow-mediterranean transition-all duration-300 transform hover:-translate-y-2">
+            <div className="bg-card rounded-2xl p-8 shadow-soft hover:shadow-mediterranean transition-all duration-300 transform hover:-translate-y-2 min-h-[400px] flex flex-col">
               <div className="flex flex-col items-center text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-sardinian-blue to-primary rounded-full flex items-center justify-center mb-6">
                   <MapPin className="w-8 h-8 text-white" />
@@ -70,7 +70,7 @@ const HomePage = () => {
                   variant="hero" 
                   size="lg"
                   onClick={() => navigate("/places")}
-                  className="w-full"
+                  className="w-full mt-auto"
                 >
                   Discover Places
                 </Button>
@@ -78,22 +78,22 @@ const HomePage = () => {
             </div>
 
             {/* My Travel Diary */}
-            <div className="bg-card rounded-2xl p-8 shadow-soft hover:shadow-mediterranean transition-all duration-300 transform hover:-translate-y-2">
+            <div className="bg-card rounded-2xl p-8 shadow-soft hover:shadow-mediterranean transition-all duration-300 transform hover:-translate-y-2 min-h-[400px] flex flex-col">
               <div className="flex flex-col items-center text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-sardinian-terracotta to-destructive rounded-full flex items-center justify-center mb-6">
                   <BookOpen className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-semibold mb-4 text-card-foreground">
-                  My Travel Diary
+                  My Travel Diary 
                 </h3>
                 <p className="text-muted-foreground mb-6">
-                  Document your journey and memories from your Sardinian adventure
+                  Document your journey and memories from your Sardinian adventurd. Add a personal touch to your trip!
                 </p>
                 <Button 
                   variant="hero" 
                   size="lg"
                   onClick={() => navigate("/diary")}
-                  className="w-full"
+                  className="w-full mt-auto"
                 >
                   Open Diary
                 </Button>
