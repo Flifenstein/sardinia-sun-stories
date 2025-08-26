@@ -18,6 +18,8 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        hero: "bg-gradient-to-r from-sardinian-blue to-sardinian-blue-light text-white hover:from-sardinian-blue-dark hover:to-sardinian-blue shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg py-6 px-8",
+        sardinian: "bg-sardinian-sand text-sardinian-blue border border-sardinian-blue hover:bg-sardinian-blue hover:text-white transition-all duration-200",
       },
       size: {
         default: "h-10 px-4 py-2",

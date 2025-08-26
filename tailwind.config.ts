@@ -52,6 +52,15 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				'sardinian': {
+					blue: 'hsl(var(--sardinian-blue))',
+					'blue-light': 'hsl(var(--sardinian-blue-light))',
+					'blue-dark': 'hsl(var(--sardinian-blue-dark))',
+					sand: 'hsl(var(--sardinian-sand))',
+					'sand-dark': 'hsl(var(--sardinian-sand-dark))',
+					green: 'hsl(var(--sardinian-green))',
+					terracotta: 'hsl(var(--sardinian-terracotta))',
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
