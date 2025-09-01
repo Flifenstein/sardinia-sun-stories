@@ -1,81 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, MapPin, Clock, Sparkles, Search } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import heroImage from "@/assets/sardinia-hero.jpg";
+
+interface Place {
+  id: string;
+  title: string;
+  type: string;
+  image_url: string | null;
+  history: string;
+  fun_fact: string;
+  is_active: boolean;
+}
 
 const PlacesPage = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [places, setPlaces] = useState<Place[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const places = [
-    {
-      title: "Alghero",
-      type: "Historic City",
-      image: heroImage,
-      history: "Founded by the Genoese in 1102, later ruled by Catalans. Known as 'Little Barcelona' for its Catalan heritage and architecture.",
-      funFact: "The city walls were built by the Spanish in the 16th century and are still largely intact today."
-    },
-    {
-      title: "Costa Smeralda",
-      type: "Beach Resort",
-      image: heroImage,
-      history: "Developed in the 1960s by Prince Karim Aga Khan IV as an exclusive resort destination for the international jet set.",
-      funFact: "Building regulations require all structures to blend with the natural landscape - no building can be taller than the surrounding trees."
-    },
-    {
-      title: "Su Nuraxi, Barumini",
-      type: "Archaeological Site",
-      image: heroImage,
-      history: "Built around 1500 BCE by the Nuragic civilization. This UNESCO World Heritage site represents one of Europe's finest prehistoric monuments.",
-      funFact: "The central tower originally stood 18-20 meters high and the complex housed up to 200 people."
-    },
-    {
-      title: "Cagliari",
-      type: "Capital City",
-      image: heroImage,
-      history: "Founded by Phoenicians around 8th century BCE. The historic Castello district preserves medieval and Renaissance architecture.",
-      funFact: "The city's Poetto beach stretches for 8 kilometers and is one of the longest urban beaches in Europe."
-    },
-    {
-      title: "Cala Goloritze",
-      type: "Natural Monument",
-      image: heroImage,
-      history: "This pristine beach was formed by a landslide in 1962. Now protected as a natural monument since 1995.",
-      funFact: "The 143-meter limestone spire next to the beach is a popular destination for rock climbers from around the world."
-    },
-    {
-      title: "Tharros",
-      type: "Ancient Ruins",
-      image: heroImage,
-      history: "Ancient Phoenician city founded in 8th century BCE, later expanded by Romans. Abandoned in 11th century due to Saracen raids.",
-      funFact: "The site contains one of the best-preserved Phoenician tophet (sacred burial grounds) in the Mediterranean."
-    },
-    {
-      title: "Orgosolo",
-      type: "Mountain Village",
-      image: heroImage,
-      history: "Traditional pastoral village famous for its murals depicting social and political themes, started in the 1960s.",
-      funFact: "The village has over 150 murals painted on building walls, making it an open-air art gallery."
-    },
-    {
-      title: "Maddalena Archipelago",
-      type: "National Park",
-      image: heroImage,
-      history: "Strategic naval base for centuries. Garibaldi lived in exile on Caprera island from 1855 until his death in 1882.",
-      funFact: "The pink sand beach of Budelli gets its color from microscopic fragments of coral and shells."
-    },
-    {
-      title: "Sassari",
-      type: "University City",
-      image: heroImage,
-      history: "Free commune in medieval times, later ruled by Pisans and Aragonese. Founded its university in 1562, one of Italy's oldest.",
-      funFact: "The Cavalcata Sarda festival in May features over 3,000 participants in traditional costumes from across Sardinia."
+  useEffect(() => {
+    fetchPlaces();
+  }, []);
+
+  const fetchPlaces = async () => {
+    try {
+      const { data, error } = await (supabase as any)
+        .from('places')
+        .select('*')
+        .eq('is_active', true)
+        .order('title');
+      
+      if (error) throw error;
+      setPlaces(data || []);
+    } catch (error) {
+      console.error('Error fetching places:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   const getFilteredPlaces = () => {
     if (searchTerm.trim() === "") {
@@ -86,7 +54,7 @@ const PlacesPage = () => {
       place.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       place.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
       place.history.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      place.funFact.toLowerCase().includes(searchTerm.toLowerCase())
+      place.fun_fact.toLowerCase().includes(searchTerm.toLowerCase())
     );
   };
 
@@ -150,12 +118,16 @@ const PlacesPage = () => {
         </div>
         
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {getFilteredPlaces().length > 0 ? (
-            getFilteredPlaces().map((place, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-mediterranean transition-all duration-300 transform hover:-translate-y-1">
+          {loading ? (
+            <div className="col-span-full text-center py-12">
+              <p className="text-muted-foreground">Loading places...</p>
+            </div>
+          ) : getFilteredPlaces().length > 0 ? (
+            getFilteredPlaces().map((place) => (
+              <Card key={place.id} className="overflow-hidden hover:shadow-mediterranean transition-all duration-300 transform hover:-translate-y-1">
                 <div className="h-48 overflow-hidden relative">
                   <img 
-                    src={place.image} 
+                    src={place.image_url || heroImage} 
                     alt={place.title}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
@@ -189,7 +161,7 @@ const PlacesPage = () => {
                     <div>
                       <h4 className="font-semibold text-sm mb-1 text-sardinian-terracotta">Fun Fact</h4>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        {place.funFact}
+                        {place.fun_fact}
                       </p>
                     </div>
                   </div>
