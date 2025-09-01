@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      content_items: {
+        Row: {
+          category: Database["public"]["Enums"]["category_enum"]
+          create_at: string | null
+          description: string
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["category_enum"]
+          create_at?: string | null
+          description: string
+          id: string
+          image_url?: string | null
+          is_active?: boolean | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["category_enum"]
+          create_at?: string | null
+          description?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      places: {
+        Row: {
+          created_at: string | null
+          fun_fact: string
+          history: string
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          title: string
+          type: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          fun_fact: string
+          history: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          title: string
+          type: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          fun_fact?: string
+          history?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          title?: string
+          type?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +91,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      category_enum: "food" | "vegetation" | "fauna"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +218,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      category_enum: ["food", "vegetation", "fauna"],
+    },
   },
 } as const
